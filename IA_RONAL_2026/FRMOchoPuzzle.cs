@@ -440,6 +440,27 @@ namespace IA_RONAL_2026
         {
 
         }
+
+        private void BTNesFinal_Click(object sender, EventArgs e)
+        {
+            CLEstado estadoActual = new CLEstado(
+                Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+            );
+
+            if (estadoActual.EsFinal() == true)
+            {
+                
+                MessageBox.Show("Es el Estado Final");
+            }
+            else
+            {
+                
+                MessageBox.Show("NO es el estado Final");
+            }
+
+        }
     }
 }
 

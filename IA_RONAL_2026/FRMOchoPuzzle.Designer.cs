@@ -42,6 +42,7 @@
             TRMReloj = new System.Windows.Forms.Timer(components);
             BTNDesordenar = new Button();
             BTNGenerarHijos = new Button();
+            BTNesFinal = new Button();
             SuspendLayout();
             // 
             // LBL00
@@ -197,11 +198,22 @@
             BTNGenerarHijos.UseVisualStyleBackColor = true;
             BTNGenerarHijos.Click += BTNGenerarHijos_Click;
             // 
+            // BTNesFinal
+            // 
+            BTNesFinal.Location = new Point(356, 300);
+            BTNesFinal.Name = "BTNesFinal";
+            BTNesFinal.Size = new Size(113, 53);
+            BTNesFinal.TabIndex = 12;
+            BTNesFinal.Text = "Es Final";
+            BTNesFinal.UseVisualStyleBackColor = true;
+            BTNesFinal.Click += BTNesFinal_Click;
+            // 
             // FRMOchoPuzzle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(507, 333);
+            ClientSize = new Size(507, 407);
+            Controls.Add(BTNesFinal);
             Controls.Add(BTNGenerarHijos);
             Controls.Add(BTNDesordenar);
             Controls.Add(LBLContador);
@@ -234,5 +246,6 @@
         private System.Windows.Forms.Timer TRMReloj;
         private Button BTNDesordenar;
         private Button BTNGenerarHijos;
+        private Button BTNesFinal;
     }
 }
