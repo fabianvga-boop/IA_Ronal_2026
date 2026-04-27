@@ -249,6 +249,23 @@ namespace IA_RONAL_2026
         #endregion
 
 
+        public bool EsIgual(CLEstado EstadoAux)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    // Si el valor en la posición actual es diferente al del EstadoAux, no son iguales
 
+                    //Comparacio del valor en la posición (i, j) del tablero actual
+                    //con el valor en la misma posición del EstadoAuxliar (Abierto o Cerrado) 
+                    if (this._tablero[i, j] != EstadoAux._tablero[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }
