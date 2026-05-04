@@ -18,6 +18,7 @@ namespace IA_RONAL_2026
         private String[,] posiciones;
         List<CLEstado> caminoSolucion;
         int pasoActualAnimacion = 0;
+        bool esRegreso= false;
 
         public FRMOchoPuzzle()
         {
@@ -489,7 +490,10 @@ namespace IA_RONAL_2026
 
             if (caminoSolucion.Count > 0)
             {
+                int nivel= caminoSolucion.Count - 1;
+                    MessageBox.Show("Solución encontrada en nivel: " + nivel.ToString());
                 pasoActualAnimacion = 0;
+                esRegreso = false;
                 TRMcontador.Interval = 500;
                 TRMcontador.Enabled = true;
             }
@@ -501,32 +505,57 @@ namespace IA_RONAL_2026
 
         private void TRMcontador_Tick_1(object sender, EventArgs e)
         {
-            if (caminoSolucion == null || pasoActualAnimacion >= caminoSolucion.Count)
+            if (caminoSolucion == null) return;
+
+            if (!esRegreso)
             {
-                TRMcontador.Enabled = false;
-                MessageBox.Show("Solución Completada");
-                return;
+                if (pasoActualAnimacion >= caminoSolucion.Count)
+                {
+                    TRMcontador.Enabled = false;
+
+                    MessageBox.Show("¡Tablero Resuelto!.");
+
+                    esRegreso = true;
+                    pasoActualAnimacion = caminoSolucion.Count - 2;
+
+                    TRMcontador.Enabled = true;
+                    return;
+                }
+
+                ActualizarInterfaz(caminoSolucion[pasoActualAnimacion]);
+                LBLContador.Text = pasoActualAnimacion.ToString();
+                pasoActualAnimacion++;
             }
+            else
+            {
+                if (pasoActualAnimacion < 0)
+                {
+                    TRMcontador.Enabled = false; // Fin total
+                    MessageBox.Show("El tablero ha vuelto a su posición inicial.");
+                    return;
+                }
 
-            CLEstado p = caminoSolucion[pasoActualAnimacion];
-            LBL00.Text = p.tablero[0, 0].ToString();
-            LBL01.Text = p.tablero[0, 1].ToString();
-            LBL02.Text = p.tablero[0, 2].ToString();
-            LBL10.Text = p.tablero[1, 0].ToString();
-            LBL11.Text = p.tablero[1, 1].ToString();
-            LBL12.Text = p.tablero[1, 2].ToString();
-            LBL20.Text = p.tablero[2, 0].ToString();
-            LBL21.Text = p.tablero[2, 1].ToString();
-            LBL22.Text = p.tablero[2, 2].ToString();
-
-            LBLContador.Text = pasoActualAnimacion.ToString();
-
-            pasoActualAnimacion++;
+                ActualizarInterfaz(caminoSolucion[pasoActualAnimacion]);
+                LBLContador.Text = pasoActualAnimacion.ToString();
+                pasoActualAnimacion--;
+            }
+        }
+        private void ActualizarInterfaz(CLEstado e)
+        {
+            LBL00.Text = e.tablero[0, 0].ToString();
+            LBL01.Text = e.tablero[0, 1].ToString();
+            LBL02.Text = e.tablero[0, 2].ToString();
+            LBL10.Text = e.tablero[1, 0].ToString();
+            LBL11.Text = e.tablero[1, 1].ToString();
+            LBL12.Text = e.tablero[1, 2].ToString();
+            LBL20.Text = e.tablero[2, 0].ToString();
+            LBL21.Text = e.tablero[2, 1].ToString();
+            LBL22.Text = e.tablero[2, 2].ToString();
         }
 
-      
 
- 
+
+
     }
 }
 
