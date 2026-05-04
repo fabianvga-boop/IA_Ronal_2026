@@ -12,6 +12,7 @@ namespace IA_RONAL_2026
         #region Campos
         private int[,] _tablero;
         private int _nivel;
+        private CLEstado _padre;
 
 
 
@@ -33,7 +34,11 @@ namespace IA_RONAL_2026
             set => _nivel = value;
 
         }
-
+        public CLEstado Padre
+        {
+            get => _padre;
+            set => _padre = value;
+        }
         #endregion
 
 
@@ -102,10 +107,12 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 1], this._tablero[0, 0], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[1, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[0, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
                     Respuesta.Add(A);
                     break;
 
@@ -113,14 +120,20 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 1], this._tablero[0, 0], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 2], this._tablero[0, 1],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[1, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[0, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
+
                     Respuesta.Add(A);
                     break;
 
@@ -128,10 +141,14 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 2], this._tablero[0, 1],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[1, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[0, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
 
@@ -139,14 +156,20 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[1, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[0, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 1], this._tablero[1, 0], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[2, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[1, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
 
@@ -154,18 +177,26 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 0], this._tablero[1, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[0, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 1], this._tablero[1, 0], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 2], this._tablero[1, 1],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[2, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[1, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
 
@@ -173,14 +204,20 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[1, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[0, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 2], this._tablero[1, 1],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[2, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[1, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
 
@@ -188,10 +225,14 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[2, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[1, 0], this._tablero[2, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 1], this._tablero[2, 0], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
 
@@ -199,14 +240,20 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[2, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[1, 1], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 1], this._tablero[2, 0], this._tablero[2, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 2], this._tablero[2, 1]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
 
@@ -214,10 +261,14 @@ namespace IA_RONAL_2026
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[2, 2],
                                      this._tablero[2, 0], this._tablero[2, 1], this._tablero[1, 2]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     A = new CLEstado(this._tablero[0, 0], this._tablero[0, 1], this._tablero[0, 2],
                                      this._tablero[1, 0], this._tablero[1, 1], this._tablero[1, 2],
                                      this._tablero[2, 0], this._tablero[2, 2], this._tablero[2, 1]);
+                    A.Padre = this;
+
                     Respuesta.Add(A);
                     break;
             }

@@ -16,6 +16,8 @@ namespace IA_RONAL_2026
         int contador = 0;
         private String pos0;
         private String[,] posiciones;
+        List<CLEstado> caminoSolucion;
+        int pasoActualAnimacion = 0;
 
         public FRMOchoPuzzle()
         {
@@ -444,23 +446,87 @@ namespace IA_RONAL_2026
         private void BTNesFinal_Click(object sender, EventArgs e)
         {
             CLEstado estadoActual = new CLEstado(
-                Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
-                Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
-                Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+                Convert.ToInt32(LBL00.Text),
+                Convert.ToInt32(LBL01.Text),
+                Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text),
+                Convert.ToInt32(LBL11.Text),
+                Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text),
+                Convert.ToInt32(LBL21.Text),
+                Convert.ToInt32(LBL22.Text)
             );
 
             if (estadoActual.EsFinal() == true)
             {
-                
+
                 MessageBox.Show("Es el Estado Final");
             }
             else
             {
-                
+
                 MessageBox.Show("NO es el estado Final");
             }
 
         }
+
+        private void BTNAnchuraPrioritaria_Click_1(object sender, EventArgs e)
+        {
+            CLEstado estadoActual = new CLEstado(
+                Convert.ToInt32(LBL00.Text),
+                Convert.ToInt32(LBL01.Text),
+                Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text),
+                Convert.ToInt32(LBL11.Text),
+                Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text),
+                Convert.ToInt32(LBL21.Text),
+                Convert.ToInt32(LBL22.Text)
+            );
+
+            // Buscar solución
+            caminoSolucion = CLAlgoritmoDeBusqueda.AnchuraPrioritaria(estadoActual);
+
+            if (caminoSolucion.Count > 0)
+            {
+                pasoActualAnimacion = 0;
+                TRMcontador.Interval = 500;
+                TRMcontador.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("No se encontró solución");
+            }
+        }
+
+        private void TRMcontador_Tick_1(object sender, EventArgs e)
+        {
+            if (caminoSolucion == null || pasoActualAnimacion >= caminoSolucion.Count)
+            {
+                TRMcontador.Enabled = false;
+                MessageBox.Show("Solución Completada");
+                return;
+            }
+
+            CLEstado p = caminoSolucion[pasoActualAnimacion];
+            LBL00.Text = p.tablero[0, 0].ToString();
+            LBL01.Text = p.tablero[0, 1].ToString();
+            LBL02.Text = p.tablero[0, 2].ToString();
+            LBL10.Text = p.tablero[1, 0].ToString();
+            LBL11.Text = p.tablero[1, 1].ToString();
+            LBL12.Text = p.tablero[1, 2].ToString();
+            LBL20.Text = p.tablero[2, 0].ToString();
+            LBL21.Text = p.tablero[2, 1].ToString();
+            LBL22.Text = p.tablero[2, 2].ToString();
+
+            LBLContador.Text = pasoActualAnimacion.ToString();
+
+            pasoActualAnimacion++;
+        }
+
+      
+
+ 
     }
 }
 

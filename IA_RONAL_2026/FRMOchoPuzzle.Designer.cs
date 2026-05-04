@@ -43,6 +43,8 @@
             BTNDesordenar = new Button();
             BTNGenerarHijos = new Button();
             BTNesFinal = new Button();
+            BTNAnchuraPrioritaria = new Button();
+            TRMcontador = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // LBL00
@@ -200,7 +202,7 @@
             // 
             // BTNesFinal
             // 
-            BTNesFinal.Location = new Point(356, 300);
+            BTNesFinal.Location = new Point(356, 301);
             BTNesFinal.Name = "BTNesFinal";
             BTNesFinal.Size = new Size(113, 53);
             BTNesFinal.TabIndex = 12;
@@ -208,11 +210,26 @@
             BTNesFinal.UseVisualStyleBackColor = true;
             BTNesFinal.Click += BTNesFinal_Click;
             // 
+            // BTNAnchuraPrioritaria
+            // 
+            BTNAnchuraPrioritaria.Location = new Point(356, 369);
+            BTNAnchuraPrioritaria.Name = "BTNAnchuraPrioritaria";
+            BTNAnchuraPrioritaria.Size = new Size(128, 53);
+            BTNAnchuraPrioritaria.TabIndex = 13;
+            BTNAnchuraPrioritaria.Text = "Anchura Prioritaria";
+            BTNAnchuraPrioritaria.UseVisualStyleBackColor = true;
+            BTNAnchuraPrioritaria.Click += BTNAnchuraPrioritaria_Click_1;
+            // 
+            // TRMcontador
+            // 
+            TRMcontador.Tick += TRMcontador_Tick_1;
+            // 
             // FRMOchoPuzzle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(507, 407);
+            ClientSize = new Size(522, 460);
+            Controls.Add(BTNAnchuraPrioritaria);
             Controls.Add(BTNesFinal);
             Controls.Add(BTNGenerarHijos);
             Controls.Add(BTNDesordenar);
@@ -247,5 +264,7 @@
         private Button BTNDesordenar;
         private Button BTNGenerarHijos;
         private Button BTNesFinal;
+        private Button BTNAnchuraPrioritaria;
+        private System.Windows.Forms.Timer TRMcontador;
     }
 }

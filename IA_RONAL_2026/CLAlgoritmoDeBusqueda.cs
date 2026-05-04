@@ -12,41 +12,52 @@ namespace IA_RONAL_2026
 
         public static List<CLEstado> AnchuraPrioritaria(CLEstado Inicial)
         {
-
-            //Definicion de variables
             List<CLEstado> Solucion = new List<CLEstado>();
             List<CLEstado> Abiertos = new List<CLEstado>();
             List<CLEstado> Cerrados = new List<CLEstado>();
             List<CLEstado> Hijos = new List<CLEstado>();
             CLEstado Actual = new CLEstado();
 
+            Inicial.Nivel = 0;
+            Inicial.Padre = null; 
             Abiertos.Add(Inicial);
             Actual = Abiertos[0];
 
-
-            while (!Actual.EsFinal() || Abiertos.Count > 0)
+            while (!Actual.EsFinal() && Abiertos.Count > 0)
             {
                 Cerrados.Add(Actual);
                 Abiertos.RemoveAt(0);
 
                 Hijos = Actual.GenerarHijos();
-
                 Hijos = TratarRepetidos(Hijos, Abiertos, Cerrados);
 
                 foreach (CLEstado a in Hijos)
                 {
+                    a.Nivel = Actual.Nivel + 1;
                     Abiertos.Add(a);
                 }
 
-                Actual = Abiertos[0];
+                if (Abiertos.Count > 0)
+                {
+                    Actual = Abiertos[0];
+                }
+            }
 
 
+            if (Actual.EsFinal())
+            {
+                CLEstado rastreador = Actual;
+                while (rastreador != null)
+                {
+                    Solucion.Add(rastreador);
+                    rastreador = rastreador.Padre; 
+                }
 
+  
+                Solucion.Reverse();
             }
 
             return Solucion;
-
-
         }
 
         private static List<CLEstado> TratarRepetidos(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
@@ -88,8 +99,6 @@ namespace IA_RONAL_2026
             }
 
             return hijosSinRepetidos;
-
-         
         }
 
        
