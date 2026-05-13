@@ -101,6 +101,109 @@ namespace IA_RONAL_2026
             return hijosSinRepetidos;
         }
 
-       
+        public static List<CLEstado> ProfundidadLimitada(CLEstado Inicial, int Limite)
+        {
+            List<CLEstado> Solucion = new List<CLEstado>();
+            List<CLEstado> Abiertos = new List<CLEstado>();
+            List<CLEstado> Cerrados = new List<CLEstado>();
+            CLEstado Actual = new CLEstado();
+            // 1. Iniciar nivel y padre
+            Inicial.Nivel = 0;
+            Inicial.Padre = null;
+
+            Abiertos.Add(Inicial);
+            Actual = Abiertos[Abiertos.Count - 1]; // LIFO (Pila)
+
+            while (!Actual.EsFinal() && Abiertos.Count > 0)
+            {
+                Cerrados.Add(Actual);
+                Abiertos.RemoveAt(Abiertos.Count - 1);
+
+                // 2. Solo expandimos si no hemos llegado al límite
+                if (Actual.Nivel < Limite)
+                {
+                    List<CLEstado> Hijos = Actual.GenerarHijos();
+
+                    // 3. ¡VITAL! Asignarle el nivel y el padre a los hijos antes de tratarlos
+                    foreach (CLEstado hijo in Hijos)
+                    {
+                        hijo.Nivel = Actual.Nivel + 1;
+                    }
+
+                    Hijos = TratarRepetidosProfundidad(Hijos, Abiertos, Cerrados);
+
+                    foreach (CLEstado a in Hijos)
+                    {
+                        Abiertos.Add(a);
+                    }
+                }
+
+                // 4. Protección contra lista vacía
+                if (Abiertos.Count > 0)
+                {
+                    Actual = Abiertos[Abiertos.Count - 1];
+                }
+            }
+
+            if (Actual.EsFinal())
+            {
+                CLEstado rastreador = Actual;
+                while (rastreador != null)
+                {
+                    Solucion.Add(rastreador);
+                    rastreador = rastreador.Padre;
+                }
+
+                // 5. ¡VITAL! Voltear la lista para que la película empiece desde el origen
+                Solucion.Reverse();
+            }
+            return Solucion;
+        }
+
+        private static List<CLEstado> TratarRepetidosProfundidad(List<CLEstado> hijos, List<CLEstado> abiertos, List<CLEstado> cerrados)
+        {
+            List<CLEstado> HijosDepurado = new List<CLEstado>();
+            bool encontrado = false;
+
+            foreach (CLEstado hijo in hijos)
+            {
+                encontrado = false;
+
+                // Comparar con abiertos
+                foreach (var a in abiertos)
+                {
+                    if (hijo.EsIgual(a))
+                    {
+                        encontrado = true;
+                        break;
+                    }
+                }
+
+                if (encontrado) continue;
+
+                // Comparar con cerrados
+                foreach (var c in cerrados)
+                {
+                    if (hijo.EsIgual(c))
+                    {
+                        // 6. ¡CORRECCIÓN DE LLAVES!
+                        if (hijo.Nivel >= c.Nivel)
+                        {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!encontrado)
+                {
+                    HijosDepurado.Add(hijo);
+                }
+            }
+
+            return HijosDepurado;
+        }
+
+
     }
 }

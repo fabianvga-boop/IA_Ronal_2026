@@ -45,6 +45,9 @@
             BTNesFinal = new Button();
             BTNAnchuraPrioritaria = new Button();
             TRMcontador = new System.Windows.Forms.Timer(components);
+            TRMProfundidadLimit = new System.Windows.Forms.Timer(components);
+            BTNProfundidadLimitada = new Button();
+            NUDLimite = new DomainUpDown();
             SuspendLayout();
             // 
             // LBL00
@@ -202,7 +205,7 @@
             // 
             // BTNesFinal
             // 
-            BTNesFinal.Location = new Point(356, 301);
+            BTNesFinal.Location = new Point(475, 41);
             BTNesFinal.Name = "BTNesFinal";
             BTNesFinal.Size = new Size(113, 53);
             BTNesFinal.TabIndex = 12;
@@ -224,11 +227,34 @@
             // 
             TRMcontador.Tick += TRMcontador_Tick_1;
             // 
+            // TRMProfundidadLimit
+            // 
+            TRMProfundidadLimit.Tick += TRMProfundidadLimit_Tick;
+            // 
+            // BTNProfundidadLimitada
+            // 
+            BTNProfundidadLimitada.Location = new Point(356, 288);
+            BTNProfundidadLimitada.Name = "BTNProfundidadLimitada";
+            BTNProfundidadLimitada.Size = new Size(128, 53);
+            BTNProfundidadLimitada.TabIndex = 14;
+            BTNProfundidadLimitada.Text = "Profundidad";
+            BTNProfundidadLimitada.UseVisualStyleBackColor = true;
+            BTNProfundidadLimitada.Click += BTNProfundidadLimitada_Click;
+            // 
+            // NUDLimite
+            // 
+            NUDLimite.Location = new Point(490, 305);
+            NUDLimite.Name = "NUDLimite";
+            NUDLimite.Size = new Size(120, 23);
+            NUDLimite.TabIndex = 15;
+            // 
             // FRMOchoPuzzle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(522, 460);
+            ClientSize = new Size(619, 460);
+            Controls.Add(NUDLimite);
+            Controls.Add(BTNProfundidadLimitada);
             Controls.Add(BTNAnchuraPrioritaria);
             Controls.Add(BTNesFinal);
             Controls.Add(BTNGenerarHijos);
@@ -266,5 +292,8 @@
         private Button BTNesFinal;
         private Button BTNAnchuraPrioritaria;
         private System.Windows.Forms.Timer TRMcontador;
+        private System.Windows.Forms.Timer TRMProfundidadLimit;
+        private Button BTNProfundidadLimitada;
+        private DomainUpDown NUDLimite;
     }
 }

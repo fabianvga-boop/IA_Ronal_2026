@@ -121,6 +121,9 @@
     <value>16, 17</value>
   </metadata>
   <metadata name="TRMcontador.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>119, 19</value>
+    <value>118, 19</value>
+  </metadata>
+  <metadata name="TRMProfundidadLimit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>251, 19</value>
   </metadata>
 </root>

@@ -17,8 +17,11 @@ namespace IA_RONAL_2026
         private String pos0;
         private String[,] posiciones;
         List<CLEstado> caminoSolucion;
+        private List<CLEstado> Solucion = new List<CLEstado>();
+        private int PasoSolucion = 0;
+
         int pasoActualAnimacion = 0;
-        bool esRegreso= false;
+        bool esRegreso = false;
 
         public FRMOchoPuzzle()
         {
@@ -490,8 +493,8 @@ namespace IA_RONAL_2026
 
             if (caminoSolucion.Count > 0)
             {
-                int nivel= caminoSolucion.Count - 1;
-                    MessageBox.Show("Solución encontrada en nivel: " + nivel.ToString());
+                int nivel = caminoSolucion.Count - 1;
+                MessageBox.Show("Solución encontrada en nivel: " + nivel.ToString());
                 pasoActualAnimacion = 0;
                 esRegreso = false;
                 TRMcontador.Interval = 500;
@@ -553,9 +556,57 @@ namespace IA_RONAL_2026
             LBL22.Text = e.tablero[2, 2].ToString();
         }
 
+        private void BTNProfundidadLimitada_Click(object sender, EventArgs e)
+        {
+            CLEstado estadoActual = new CLEstado(
+           Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+           Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+           Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+           );
+
+            int Limite = Convert.ToInt32(NUDLimite.Text);
+            Solucion = CLAlgoritmoDeBusqueda.ProfundidadLimitada(estadoActual, Limite);
 
 
+            if (Solucion.Count != 0)
+            {
+                int cantPasos = Solucion.Count - 1;
+                MessageBox.Show("Solución Encontrada: " + cantPasos + " pasos");
+                PasoSolucion = 0;
+                TRMProfundidadLimit.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("La Solución no se encuentra dentro del limite ingresado");
+            }
 
+
+        }
+
+        private void TRMProfundidadLimit_Tick(object sender, EventArgs e)
+        {
+            if (PasoSolucion < Solucion.Count)
+            {
+                CLEstado p = Solucion[PasoSolucion];
+
+                LBL00.Text = p.tablero[0, 0].ToString();
+                LBL01.Text = p.tablero[0, 1].ToString();
+                LBL02.Text = p.tablero[0, 2].ToString();
+                LBL10.Text = p.tablero[1, 0].ToString();
+                LBL11.Text = p.tablero[1, 1].ToString();
+                LBL12.Text = p.tablero[1, 2].ToString();
+                LBL20.Text = p.tablero[2, 0].ToString();
+                LBL21.Text = p.tablero[2, 1].ToString();
+                LBL22.Text = p.tablero[2, 2].ToString();
+
+                PasoSolucion++;
+            }
+            else
+            {
+                TRMProfundidadLimit.Enabled = false;
+                PasoSolucion = 0;
+            }
+        }
     }
 }
 
