@@ -564,7 +564,7 @@ namespace IA_RONAL_2026
            Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
            );
 
-            int Limite = Convert.ToInt32(NUDLimite.Text);
+            int Limite = Convert.ToInt32(NUDLimite.Value);
             Solucion = CLAlgoritmoDeBusqueda.ProfundidadLimitada(estadoActual, Limite);
 
 
@@ -605,6 +605,35 @@ namespace IA_RONAL_2026
             {
                 TRMProfundidadLimit.Enabled = false;
                 PasoSolucion = 0;
+            }
+        }
+
+        private void BTNProfundidadIterativa_Click(object sender, EventArgs e)
+        {
+            {
+              CLEstado nodoInicial = new CLEstado(
+              Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+              Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+              Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+              );
+
+                int maximoNivel = Convert.ToInt32(NUDLimiteIterativo.Value);
+
+                Solucion = CLAlgoritmoDeBusqueda.ProfundidadIterativa(nodoInicial, maximoNivel);
+
+                if (Solucion.Count > 0)
+                {
+                    int movimientos = Solucion.Count - 1;
+                    MessageBox.Show("¡Búsqueda Iterativa exitosa! Se halló la solucion en " + movimientos + " movimientos.");
+
+                    PasoSolucion = 0;
+                    // reutilizo el timer de profundidad limitada 
+                    TRMProfundidadLimit.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Se alcanzó el límite máximo de iteraciones sin encontrar la solución.");
+                }
             }
         }
     }

@@ -47,7 +47,11 @@
             TRMcontador = new System.Windows.Forms.Timer(components);
             TRMProfundidadLimit = new System.Windows.Forms.Timer(components);
             BTNProfundidadLimitada = new Button();
-            NUDLimite = new DomainUpDown();
+            NUDLimite = new NumericUpDown();
+            BTNProfundidadIterativa = new Button();
+            NUDLimiteIterativo = new NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)NUDLimite).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUDLimiteIterativo).BeginInit();
             SuspendLayout();
             // 
             // LBL00
@@ -195,7 +199,7 @@
             // 
             // BTNGenerarHijos
             // 
-            BTNGenerarHijos.Location = new Point(356, 229);
+            BTNGenerarHijos.Location = new Point(594, 41);
             BTNGenerarHijos.Name = "BTNGenerarHijos";
             BTNGenerarHijos.Size = new Size(113, 53);
             BTNGenerarHijos.TabIndex = 11;
@@ -215,7 +219,7 @@
             // 
             // BTNAnchuraPrioritaria
             // 
-            BTNAnchuraPrioritaria.Location = new Point(356, 369);
+            BTNAnchuraPrioritaria.Location = new Point(356, 359);
             BTNAnchuraPrioritaria.Name = "BTNAnchuraPrioritaria";
             BTNAnchuraPrioritaria.Size = new Size(128, 53);
             BTNAnchuraPrioritaria.TabIndex = 13;
@@ -233,7 +237,7 @@
             // 
             // BTNProfundidadLimitada
             // 
-            BTNProfundidadLimitada.Location = new Point(356, 288);
+            BTNProfundidadLimitada.Location = new Point(356, 241);
             BTNProfundidadLimitada.Name = "BTNProfundidadLimitada";
             BTNProfundidadLimitada.Size = new Size(128, 53);
             BTNProfundidadLimitada.TabIndex = 14;
@@ -243,16 +247,35 @@
             // 
             // NUDLimite
             // 
-            NUDLimite.Location = new Point(490, 305);
+            NUDLimite.Location = new Point(490, 258);
             NUDLimite.Name = "NUDLimite";
             NUDLimite.Size = new Size(120, 23);
-            NUDLimite.TabIndex = 15;
+            NUDLimite.TabIndex = 16;
+            // 
+            // BTNProfundidadIterativa
+            // 
+            BTNProfundidadIterativa.Location = new Point(356, 300);
+            BTNProfundidadIterativa.Name = "BTNProfundidadIterativa";
+            BTNProfundidadIterativa.Size = new Size(128, 53);
+            BTNProfundidadIterativa.TabIndex = 17;
+            BTNProfundidadIterativa.Text = "Profundidad Iterativa";
+            BTNProfundidadIterativa.UseVisualStyleBackColor = true;
+            BTNProfundidadIterativa.Click += BTNProfundidadIterativa_Click;
+            // 
+            // NUDLimiteIterativo
+            // 
+            NUDLimiteIterativo.Location = new Point(490, 317);
+            NUDLimiteIterativo.Name = "NUDLimiteIterativo";
+            NUDLimiteIterativo.Size = new Size(120, 23);
+            NUDLimiteIterativo.TabIndex = 18;
             // 
             // FRMOchoPuzzle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(619, 460);
+            ClientSize = new Size(714, 418);
+            Controls.Add(NUDLimiteIterativo);
+            Controls.Add(BTNProfundidadIterativa);
             Controls.Add(NUDLimite);
             Controls.Add(BTNProfundidadLimitada);
             Controls.Add(BTNAnchuraPrioritaria);
@@ -271,6 +294,8 @@
             Controls.Add(LBL00);
             Name = "FRMOchoPuzzle";
             Text = "FRMOchoPuzzle";
+            ((System.ComponentModel.ISupportInitialize)NUDLimite).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUDLimiteIterativo).EndInit();
             ResumeLayout(false);
         }
 
@@ -294,6 +319,8 @@
         private System.Windows.Forms.Timer TRMcontador;
         private System.Windows.Forms.Timer TRMProfundidadLimit;
         private Button BTNProfundidadLimitada;
-        private DomainUpDown NUDLimite;
+        private NumericUpDown NUDLimite;
+        private Button BTNProfundidadIterativa;
+        private NumericUpDown NUDLimiteIterativo;
     }
 }

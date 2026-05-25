@@ -186,7 +186,6 @@ namespace IA_RONAL_2026
                 {
                     if (hijo.EsIgual(c))
                     {
-                        // 6. ¡CORRECCIÓN DE LLAVES!
                         if (hijo.Nivel >= c.Nivel)
                         {
                             encontrado = true;
@@ -204,6 +203,82 @@ namespace IA_RONAL_2026
             return HijosDepurado;
         }
 
+
+        public static List<CLEstado> ProfundidadIterativa(CLEstado Inicial, int limiteMaximo)
+        {
+            List<CLEstado> Solucion = new List<CLEstado>();
+
+
+            int nivelMensaje = -1;
+
+
+            for (int prof = 1; prof <= limiteMaximo; prof++)
+            {
+                //Limpiamos las listas en cada nueva vuelta
+                List<CLEstado> Abiertos = new List<CLEstado>();
+                List<CLEstado> Cerrados = new List<CLEstado>();
+                CLEstado Actual = new CLEstado();
+
+                // estado inicial
+                Inicial.Nivel = 0;
+                Inicial.Padre = null;
+                Abiertos.Add(Inicial);
+
+            
+                Actual = Abiertos[Abiertos.Count - 1];
+
+                while (!Actual.EsFinal() && Abiertos.Count > 0)
+                {
+                    Cerrados.Add(Actual);
+
+                    if (Actual.Nivel > nivelMensaje)
+                    {
+                        MessageBox.Show("Avanzando en el nivel de profundidad: " + Actual.Nivel, "Buscando solución...");
+                        nivelMensaje = Actual.Nivel;
+                    }
+                    Abiertos.RemoveAt(Abiertos.Count - 1);
+
+
+                    if (Actual.Nivel < prof)
+                    {
+                        List<CLEstado> Hijos = Actual.GenerarHijos();
+
+                        foreach (CLEstado hijo in Hijos)
+                        {
+                            hijo.Nivel = Actual.Nivel + 1;
+                        }
+
+                        Hijos = TratarRepetidosProfundidad(Hijos, Abiertos, Cerrados);
+
+                        foreach (CLEstado a in Hijos)
+                        {
+                            Abiertos.Add(a);
+                        }
+                    }
+
+                    if (Abiertos.Count > 0)
+                    {
+                        Actual = Abiertos[Abiertos.Count - 1];
+                    }
+                }
+
+                if (Actual.EsFinal())
+                {
+                    CLEstado rastreador = Actual;
+                    while (rastreador != null)
+                    {
+                        Solucion.Add(rastreador);
+                        rastreador = rastreador.Padre;
+                    }
+                    Solucion.Reverse();
+
+                    return Solucion; 
+                }
+
+            }
+
+            return Solucion;
+        }
 
     }
 }
