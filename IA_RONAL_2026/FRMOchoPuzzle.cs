@@ -17,6 +17,10 @@ namespace IA_RONAL_2026
         private String pos0;
         private String[,] posiciones;
         List<CLEstado> caminoSolucion;
+
+        private List<CLEstado> Solucion = new List<CLEstado>();
+        private int PasoSolucion = 0;
+
         int pasoActualAnimacion = 0;
 
         public FRMOchoPuzzle()
@@ -524,9 +528,85 @@ namespace IA_RONAL_2026
             pasoActualAnimacion++;
         }
 
-      
+        private void BTNProfundidadLimitada_Click(object sender, EventArgs e)
+        {
+            CLEstado estadoActual = new CLEstado(
+           Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+           Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+           Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+           );
 
- 
+            int Limite = Convert.ToInt32(NUDLimit.Value);
+            Solucion = CLAlgoritmoDeBusqueda.ProfundidadLimitada(estadoActual, Limite);
+
+
+            if (Solucion.Count != 0)
+            {
+                int cantPasos = Solucion.Count - 1;
+                MessageBox.Show("Solución Encontrada: " + cantPasos + " pasos");
+                PasoSolucion = 0;
+                TRMProfundidaLim.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("La Solución no se encuentra dentro del limite ingresado");
+            }
+
+
+        }
+
+        private void TRMProfundidaLim_Tick(object sender, EventArgs e)
+        {
+            if (PasoSolucion < Solucion.Count)
+            {
+                CLEstado p = Solucion[PasoSolucion];
+
+                LBL00.Text = p.tablero[0, 0].ToString();
+                LBL01.Text = p.tablero[0, 1].ToString();
+                LBL02.Text = p.tablero[0, 2].ToString();
+                LBL10.Text = p.tablero[1, 0].ToString();
+                LBL11.Text = p.tablero[1, 1].ToString();
+                LBL12.Text = p.tablero[1, 2].ToString();
+                LBL20.Text = p.tablero[2, 0].ToString();
+                LBL21.Text = p.tablero[2, 1].ToString();
+                LBL22.Text = p.tablero[2, 2].ToString();
+
+                PasoSolucion++;
+            }
+            else
+            {
+                TRMProfundidaLim.Enabled = false;
+                PasoSolucion = 0;
+            }
+        }
+
+        private void BTNProfundidadIterativa_Click(object sender, EventArgs e)
+        {
+            CLEstado nodoInicial = new CLEstado(
+          Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+          Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+          Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+          );
+
+            int maximoNivel = Convert.ToInt32(NUDLimitIterativo.Value);
+
+            // Llamamos al nuevo método iterativo
+            Solucion = CLAlgoritmoDeBusqueda.ProfundidadIterativa(nodoInicial, maximoNivel);
+
+            if (Solucion.Count > 0)
+            {
+                int movimientos = Solucion.Count - 1;
+                MessageBox.Show("¡Búsqueda Iterativa exitosa! Se halló la meta en " + movimientos + " movimientos.");
+
+                PasoSolucion = 0;
+                // Puedes reutilizar el mismo Timer que usaste para la profundidad limitada
+                TRMProfundidaLim.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Se alcanzó el límite máximo de iteraciones sin encontrar la solución.");
+            }
+        }
     }
 }
 
