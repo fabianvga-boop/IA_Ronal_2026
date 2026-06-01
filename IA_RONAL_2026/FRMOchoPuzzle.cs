@@ -17,11 +17,11 @@ namespace IA_RONAL_2026
         private String pos0;
         private String[,] posiciones;
         List<CLEstado> caminoSolucion;
-
         private List<CLEstado> Solucion = new List<CLEstado>();
         private int PasoSolucion = 0;
 
         int pasoActualAnimacion = 0;
+        bool esRegreso = false;
 
         public FRMOchoPuzzle()
         {
@@ -493,7 +493,10 @@ namespace IA_RONAL_2026
 
             if (caminoSolucion.Count > 0)
             {
+                int nivel = caminoSolucion.Count - 1;
+                MessageBox.Show("Solución encontrada en nivel: " + nivel.ToString());
                 pasoActualAnimacion = 0;
+                esRegreso = false;
                 TRMcontador.Interval = 500;
                 TRMcontador.Enabled = true;
             }
@@ -505,27 +508,52 @@ namespace IA_RONAL_2026
 
         private void TRMcontador_Tick_1(object sender, EventArgs e)
         {
-            if (caminoSolucion == null || pasoActualAnimacion >= caminoSolucion.Count)
+            if (caminoSolucion == null) return;
+
+            if (!esRegreso)
             {
-                TRMcontador.Enabled = false;
-                MessageBox.Show("Solución Completada");
-                return;
+                if (pasoActualAnimacion >= caminoSolucion.Count)
+                {
+                    TRMcontador.Enabled = false;
+
+                    MessageBox.Show("¡Tablero Resuelto!.");
+
+                    esRegreso = true;
+                    pasoActualAnimacion = caminoSolucion.Count - 2;
+
+                    TRMcontador.Enabled = true;
+                    return;
+                }
+
+                ActualizarInterfaz(caminoSolucion[pasoActualAnimacion]);
+                LBLContador.Text = pasoActualAnimacion.ToString();
+                pasoActualAnimacion++;
             }
+            else
+            {
+                if (pasoActualAnimacion < 0)
+                {
+                    TRMcontador.Enabled = false; // Fin total
+                    MessageBox.Show("El tablero ha vuelto a su posición inicial.");
+                    return;
+                }
 
-            CLEstado p = caminoSolucion[pasoActualAnimacion];
-            LBL00.Text = p.tablero[0, 0].ToString();
-            LBL01.Text = p.tablero[0, 1].ToString();
-            LBL02.Text = p.tablero[0, 2].ToString();
-            LBL10.Text = p.tablero[1, 0].ToString();
-            LBL11.Text = p.tablero[1, 1].ToString();
-            LBL12.Text = p.tablero[1, 2].ToString();
-            LBL20.Text = p.tablero[2, 0].ToString();
-            LBL21.Text = p.tablero[2, 1].ToString();
-            LBL22.Text = p.tablero[2, 2].ToString();
-
-            LBLContador.Text = pasoActualAnimacion.ToString();
-
-            pasoActualAnimacion++;
+                ActualizarInterfaz(caminoSolucion[pasoActualAnimacion]);
+                LBLContador.Text = pasoActualAnimacion.ToString();
+                pasoActualAnimacion--;
+            }
+        }
+        private void ActualizarInterfaz(CLEstado e)
+        {
+            LBL00.Text = e.tablero[0, 0].ToString();
+            LBL01.Text = e.tablero[0, 1].ToString();
+            LBL02.Text = e.tablero[0, 2].ToString();
+            LBL10.Text = e.tablero[1, 0].ToString();
+            LBL11.Text = e.tablero[1, 1].ToString();
+            LBL12.Text = e.tablero[1, 2].ToString();
+            LBL20.Text = e.tablero[2, 0].ToString();
+            LBL21.Text = e.tablero[2, 1].ToString();
+            LBL22.Text = e.tablero[2, 2].ToString();
         }
 
         private void BTNProfundidadLimitada_Click(object sender, EventArgs e)
@@ -536,7 +564,7 @@ namespace IA_RONAL_2026
            Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
            );
 
-            int Limite = Convert.ToInt32(NUDLimit.Value);
+            int Limite = Convert.ToInt32(NUDLimite.Value);
             Solucion = CLAlgoritmoDeBusqueda.ProfundidadLimitada(estadoActual, Limite);
 
 
@@ -545,7 +573,7 @@ namespace IA_RONAL_2026
                 int cantPasos = Solucion.Count - 1;
                 MessageBox.Show("Solución Encontrada: " + cantPasos + " pasos");
                 PasoSolucion = 0;
-                TRMProfundidaLim.Enabled = true;
+                TRMProfundidadLimit.Enabled = true;
             }
             else
             {
@@ -555,7 +583,7 @@ namespace IA_RONAL_2026
 
         }
 
-        private void TRMProfundidaLim_Tick(object sender, EventArgs e)
+        private void TRMProfundidadLimit_Tick(object sender, EventArgs e)
         {
             if (PasoSolucion < Solucion.Count)
             {
@@ -575,36 +603,37 @@ namespace IA_RONAL_2026
             }
             else
             {
-                TRMProfundidaLim.Enabled = false;
+                TRMProfundidadLimit.Enabled = false;
                 PasoSolucion = 0;
             }
         }
 
         private void BTNProfundidadIterativa_Click(object sender, EventArgs e)
         {
-            CLEstado nodoInicial = new CLEstado(
-          Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
-          Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
-          Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
-          );
-
-            int maximoNivel = Convert.ToInt32(NUDLimitIterativo.Value);
-
-            // Llamamos al nuevo método iterativo
-            Solucion = CLAlgoritmoDeBusqueda.ProfundidadIterativa(nodoInicial, maximoNivel);
-
-            if (Solucion.Count > 0)
             {
-                int movimientos = Solucion.Count - 1;
-                MessageBox.Show("¡Búsqueda Iterativa exitosa! Se halló la meta en " + movimientos + " movimientos.");
+              CLEstado nodoInicial = new CLEstado(
+              Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+              Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+              Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+              );
 
-                PasoSolucion = 0;
-                // Puedes reutilizar el mismo Timer que usaste para la profundidad limitada
-                TRMProfundidaLim.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show("Se alcanzó el límite máximo de iteraciones sin encontrar la solución.");
+                int maximoNivel = Convert.ToInt32(NUDLimiteIterativo.Value);
+
+                Solucion = CLAlgoritmoDeBusqueda.ProfundidadIterativa(nodoInicial, maximoNivel);
+
+                if (Solucion.Count > 0)
+                {
+                    int movimientos = Solucion.Count - 1;
+                    MessageBox.Show("¡Búsqueda Iterativa exitosa! Se halló la solucion en " + movimientos + " movimientos.");
+
+                    PasoSolucion = 0;
+                    // reutilizo el timer de profundidad limitada 
+                    TRMProfundidadLimit.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Se alcanzó el límite máximo de iteraciones sin encontrar la solución.");
+                }
             }
         }
     }

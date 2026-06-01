@@ -106,7 +106,7 @@ namespace IA_RONAL_2026
             List<CLEstado> Solucion = new List<CLEstado>();
             List<CLEstado> Abiertos = new List<CLEstado>();
             List<CLEstado> Cerrados = new List<CLEstado>();
-                 CLEstado Actual = new CLEstado();
+            CLEstado Actual = new CLEstado();
             // 1. Iniciar nivel y padre
             Inicial.Nivel = 0;
             Inicial.Padre = null;
@@ -186,7 +186,6 @@ namespace IA_RONAL_2026
                 {
                     if (hijo.EsIgual(c))
                     {
-                        // 6. ¡CORRECCIÓN DE LLAVES!
                         if (hijo.Nivel >= c.Nivel)
                         {
                             encontrado = true;
@@ -204,39 +203,46 @@ namespace IA_RONAL_2026
             return HijosDepurado;
         }
 
+
         public static List<CLEstado> ProfundidadIterativa(CLEstado Inicial, int limiteMaximo)
         {
             List<CLEstado> Solucion = new List<CLEstado>();
 
-            // Bucle externo: Controla el incremento de la profundidad (prof)
-            // Esto equivale al "mientras (no esfinal) y prof < limite" de tu imagen
+
+            int nivelMensaje = -1;
+
+
             for (int prof = 1; prof <= limiteMaximo; prof++)
             {
-                // Estabiertos.inicializar() -> Limpiamos las listas en cada nueva vuelta
+                //Limpiamos las listas en cada nueva vuelta
                 List<CLEstado> Abiertos = new List<CLEstado>();
                 List<CLEstado> Cerrados = new List<CLEstado>();
                 CLEstado Actual = new CLEstado();
 
-                // Estabiertos.insertar(Estadoinicial)
+                // estado inicial
                 Inicial.Nivel = 0;
                 Inicial.Padre = null;
                 Abiertos.Add(Inicial);
 
-                // Actual = Estabiertos.primero() -> Como es profundidad, usamos la Pila (LIFO)
+            
                 Actual = Abiertos[Abiertos.Count - 1];
 
-                // Bucle interno: Búsqueda en profundidad limitada tradicional
                 while (!Actual.EsFinal() && Abiertos.Count > 0)
                 {
                     Cerrados.Add(Actual);
+
+                    if (Actual.Nivel > nivelMensaje)
+                    {
+                        MessageBox.Show("Avanzando en el nivel de profundidad: " + Actual.Nivel, "Buscando solución...");
+                        nivelMensaje = Actual.Nivel;
+                    }
                     Abiertos.RemoveAt(Abiertos.Count - 1);
 
-                    // "Si profundidad(Actual) <= prof entonces..."
+
                     if (Actual.Nivel < prof)
                     {
                         List<CLEstado> Hijos = Actual.GenerarHijos();
 
-                        // Asignamos nivel y padre antes de tratar repetidos
                         foreach (CLEstado hijo in Hijos)
                         {
                             hijo.Nivel = Actual.Nivel + 1;
@@ -244,21 +250,18 @@ namespace IA_RONAL_2026
 
                         Hijos = TratarRepetidosProfundidad(Hijos, Abiertos, Cerrados);
 
-                        // Estabiertos.insertar(Hijos)
                         foreach (CLEstado a in Hijos)
                         {
                             Abiertos.Add(a);
                         }
                     }
 
-                    // Avanzar al siguiente estado
                     if (Abiertos.Count > 0)
                     {
                         Actual = Abiertos[Abiertos.Count - 1];
                     }
                 }
 
-                // Si al terminar la búsqueda en este nivel encontramos la meta, reconstruimos y SALIMOS
                 if (Actual.EsFinal())
                 {
                     CLEstado rastreador = Actual;
@@ -269,14 +272,13 @@ namespace IA_RONAL_2026
                     }
                     Solucion.Reverse();
 
-                    return Solucion; // Rompe el ciclo 'for' y devuelve la solución
+                    return Solucion; 
                 }
 
-                // Si no lo encuentra, el ciclo 'for' hace prof = prof + 1 y vuelve a empezar
             }
 
-            // Si se agota el límite máximo y nunca entró al return de arriba, fracasó.
             return Solucion;
         }
+
     }
 }
