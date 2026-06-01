@@ -318,5 +318,94 @@ namespace IA_RONAL_2026
             }
             return true;
         }
+
+        public int H1()
+        {
+            int H1 = 0;
+
+            int[,] matrizMeta =
+            {
+        { 1, 2, 3 },
+        { 8, 0, 4 },
+        { 7, 6, 5 }
+    };
+
+            for (int fila = 0; fila < 3; fila++)
+            {
+                for (int col = 0; col < 3; col++)
+                {
+                    if (_tablero[fila, col] != 0 && _tablero[fila, col] != matrizMeta[fila, col])
+                    {
+                        H1++;
+                    }
+                }
+            }
+
+            return H1; 
+        }
+
+        public int H2()
+        {
+            int distancia = 0;
+
+            int[] metaFila = { 1, 0, 0, 0, 1, 2, 2, 2, 1 };
+            int[] metaCol = { 1, 0, 1, 2, 2, 2, 1, 0, 0 };
+
+            for (int f = 0; f < 3; f++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    int valor = _tablero[f, c];
+
+                    if (valor != 0)
+                    {
+                        distancia += Math.Abs(f - metaFila[valor]) + Math.Abs(c - metaCol[valor]);
+                    }
+                }
+            }
+
+            return distancia; 
+        }
+
+        public int H3()
+        {
+            int penalizacion = 0;
+
+            int[] camino =
+            {
+        _tablero[0, 0],
+        _tablero[0, 1],
+        _tablero[0, 2],
+        _tablero[1, 2],
+        _tablero[2, 2],
+        _tablero[2, 1],
+        _tablero[2, 0],
+        _tablero[1, 0]
+    };
+
+            for (int k = 0; k < 8; k++)
+            {
+                int nodoActual = camino[k];
+                int nodoSiguiente = camino[(k + 1) % 8];
+
+                if (nodoActual != 0)
+                {
+                    int sucesorIdeal = (nodoActual == 8) ? 1 : nodoActual + 1;
+
+                    if (nodoSiguiente != sucesorIdeal)
+                    {
+                        penalizacion += 2;
+                    }
+                }
+            }
+
+            if (_tablero[1, 1] != 0)
+            {
+                penalizacion++;
+            }
+
+            return H2() + (3 * penalizacion);
+        }
+
     }
 }
