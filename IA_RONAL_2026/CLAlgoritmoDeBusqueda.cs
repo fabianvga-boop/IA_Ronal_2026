@@ -281,40 +281,58 @@ namespace IA_RONAL_2026
         }
 
 
-            public static List<CLEstado> AlgortimoHeuristicoH3(CLEstado Inicial)
+        public static List<CLEstado> AlgortimoHeuristicoH3(CLEstado Inicial)
         {
-            //Definición de variables
             List<CLEstado> Solucion = new List<CLEstado>();
             List<CLEstado> Abiertos = new List<CLEstado>();
             List<CLEstado> Cerrados = new List<CLEstado>();
             List<CLEstado> Hijos = new List<CLEstado>();
             CLEstado Actual = new CLEstado();
-            //Algoritmo
+
+            Inicial.Nivel = 0;
+            Inicial.Padre = null;
             Abiertos.Add(Inicial);
             Actual = Abiertos[0];
+
             while (!Actual.EsFinal() && Abiertos.Count > 0)
             {
                 Cerrados.Add(Actual);
                 Abiertos.RemoveAt(0);
+
                 Hijos = Actual.GenerarHijos();
-                Hijos = TratarRepetidos(Hijos, Abiertos, Cerrados);
-                foreach (CLEstado a in Hijos)
-                    Abiertos.Add(a);
-                //ORDENAR ABIERTOS POR H3
-                Actual = Abiertos[0];
-            }
-            if (Actual.EsFinal())
-            {
-                Solucion.Add(Actual);
-                while (Actual.Padre != null)
+
+                foreach (CLEstado hijo in Hijos)
                 {
-                    Solucion.Add(Actual.Padre);
-                    Actual = Actual.Padre;
+                    hijo.Nivel = Actual.Nivel + 1;
+                }
+
+                Hijos = TratarRepetidos(Hijos, Abiertos, Cerrados);
+
+                foreach (CLEstado a in Hijos)
+                {
+                    Abiertos.Add(a);
+                }
+
+                if (Abiertos.Count > 0)
+                {
+                    Abiertos = Abiertos.OrderBy(estado => estado.Nivel + estado.h3).ToList();
+                    Actual = Abiertos[0];
                 }
             }
+
+            if (Actual.EsFinal())
+            {
+                CLEstado rastreador = Actual;
+                while (rastreador != null)
+                {
+                    Solucion.Add(rastreador);
+                    rastreador = rastreador.Padre;
+                }
+                Solucion.Reverse();
+            }
+
             return Solucion;
         }
     }
 
-    
 }

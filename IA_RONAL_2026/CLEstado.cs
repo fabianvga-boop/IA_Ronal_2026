@@ -289,15 +289,19 @@ namespace IA_RONAL_2026
         {
             bool res = false;
 
+            // Estado meta circular:
+            // 1 2 3
+            // 8 0 4
+            // 7 6 5
             if (this._tablero[0, 0] == 1 &&
                 this._tablero[0, 1] == 2 &&
                 this._tablero[0, 2] == 3 &&
-                this._tablero[1, 0] == 4 &&
-                this._tablero[1, 1] == 5 &&
-                this._tablero[1, 2] == 6 &&
+                this._tablero[1, 0] == 8 &&
+                this._tablero[1, 1] == 0 &&
+                this._tablero[1, 2] == 4 &&
                 this._tablero[2, 0] == 7 &&
-                this._tablero[2, 1] == 8 &&
-                this._tablero[2, 2] == 0)
+                this._tablero[2, 1] == 6 &&
+                this._tablero[2, 2] == 5)
             {
                 res = true;
             }

@@ -53,6 +53,8 @@
             BTNH1 = new Button();
             BTNH2 = new Button();
             BTNH3 = new Button();
+            BTNHeuristica = new Button();
+            TRMH3 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)NUDLimite).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUDLimiteIterativo).BeginInit();
             SuspendLayout();
@@ -302,11 +304,22 @@
             BTNH3.UseVisualStyleBackColor = true;
             BTNH3.Click += BTNH3_Click;
             // 
+            // BTNHeuristica
+            // 
+            BTNHeuristica.Location = new Point(574, 287);
+            BTNHeuristica.Name = "BTNHeuristica";
+            BTNHeuristica.Size = new Size(128, 53);
+            BTNHeuristica.TabIndex = 22;
+            BTNHeuristica.Text = "Heuristica";
+            BTNHeuristica.UseVisualStyleBackColor = true;
+            BTNHeuristica.Click += BTNHeuristica_Click;
+            // 
             // FRMOchoPuzzle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(714, 418);
+            Controls.Add(BTNHeuristica);
             Controls.Add(BTNH3);
             Controls.Add(BTNH2);
             Controls.Add(BTNH1);
@@ -361,5 +374,7 @@
         private Button BTNH1;
         private Button BTNH2;
         private Button BTNH3;
+        private Button BTNHeuristica;
+        private System.Windows.Forms.Timer TRMH3;
     }
 }

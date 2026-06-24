@@ -23,6 +23,8 @@ namespace IA_RONAL_2026
         int pasoActualAnimacion = 0;
         bool esRegreso = false;
 
+        int[,] _tablero = new int[3, 3];
+
         public FRMOchoPuzzle()
         {
             InitializeComponent();
@@ -545,6 +547,7 @@ namespace IA_RONAL_2026
         }
         private void ActualizarInterfaz(CLEstado e)
         {
+
             LBL00.Text = e.tablero[0, 0].ToString();
             LBL01.Text = e.tablero[0, 1].ToString();
             LBL02.Text = e.tablero[0, 2].ToString();
@@ -554,6 +557,7 @@ namespace IA_RONAL_2026
             LBL20.Text = e.tablero[2, 0].ToString();
             LBL21.Text = e.tablero[2, 1].ToString();
             LBL22.Text = e.tablero[2, 2].ToString();
+
         }
 
         private void BTNProfundidadLimitada_Click(object sender, EventArgs e)
@@ -594,7 +598,7 @@ namespace IA_RONAL_2026
                 LBL02.Text = p.tablero[0, 2].ToString();
                 LBL10.Text = p.tablero[1, 0].ToString();
                 LBL11.Text = p.tablero[1, 1].ToString();
-                LBL12.Text = p.tablero[1, 2].ToString();    
+                LBL12.Text = p.tablero[1, 2].ToString();
                 LBL20.Text = p.tablero[2, 0].ToString();
                 LBL21.Text = p.tablero[2, 1].ToString();
                 LBL22.Text = p.tablero[2, 2].ToString();
@@ -627,7 +631,6 @@ namespace IA_RONAL_2026
                     MessageBox.Show("¡Búsqueda Iterativa exitosa! Se halló la solucion en " + movimientos + " movimientos.");
 
                     PasoSolucion = 0;
-                    // reutilizo el timer de profundidad limitada 
                     TRMProfundidadLimit.Enabled = true;
                 }
                 else
@@ -681,6 +684,38 @@ namespace IA_RONAL_2026
                                            );
             MessageBox.Show(Inicial.H2().ToString());
         }
+
+        private async void BTNHeuristica_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Enabled = false;
+
+            CLEstado estadoInicial = new CLEstado(
+                Convert.ToInt32(LBL00.Text), Convert.ToInt32(LBL01.Text), Convert.ToInt32(LBL02.Text),
+                Convert.ToInt32(LBL10.Text), Convert.ToInt32(LBL11.Text), Convert.ToInt32(LBL12.Text),
+                Convert.ToInt32(LBL20.Text), Convert.ToInt32(LBL21.Text), Convert.ToInt32(LBL22.Text)
+            );
+
+            List<CLEstado> solucion = await Task.Run(() => CLAlgoritmoDeBusqueda.AlgortimoHeuristicoH3(estadoInicial));
+
+            if (solucion.Count > 0)
+            {
+                MessageBox.Show($"¡Se encontró la estructura del sistema correcta en el nivel {solucion.Count - 1}!", "¡Meta Alcanzada!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                foreach (CLEstado paso in solucion)
+                {
+                    ActualizarInterfaz(paso);
+                    await Task.Delay(500); // Pausa para la animación
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se encontró una solución viable para este tablero.", "Sin solución", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            btn.Enabled = true;
+        }
+
     }
 }
 
