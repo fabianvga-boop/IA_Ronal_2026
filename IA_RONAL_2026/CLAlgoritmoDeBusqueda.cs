@@ -224,7 +224,7 @@ namespace IA_RONAL_2026
                 Inicial.Padre = null;
                 Abiertos.Add(Inicial);
 
-            
+
                 Actual = Abiertos[Abiertos.Count - 1];
 
                 while (!Actual.EsFinal() && Abiertos.Count > 0)
@@ -272,7 +272,7 @@ namespace IA_RONAL_2026
                     }
                     Solucion.Reverse();
 
-                    return Solucion; 
+                    return Solucion;
                 }
 
             }
@@ -280,5 +280,41 @@ namespace IA_RONAL_2026
             return Solucion;
         }
 
+
+            public static List<CLEstado> AlgortimoHeuristicoH3(CLEstado Inicial)
+        {
+            //Definición de variables
+            List<CLEstado> Solucion = new List<CLEstado>();
+            List<CLEstado> Abiertos = new List<CLEstado>();
+            List<CLEstado> Cerrados = new List<CLEstado>();
+            List<CLEstado> Hijos = new List<CLEstado>();
+            CLEstado Actual = new CLEstado();
+            //Algoritmo
+            Abiertos.Add(Inicial);
+            Actual = Abiertos[0];
+            while (!Actual.EsFinal() && Abiertos.Count > 0)
+            {
+                Cerrados.Add(Actual);
+                Abiertos.RemoveAt(0);
+                Hijos = Actual.GenerarHijos();
+                Hijos = TratarRepetidos(Hijos, Abiertos, Cerrados);
+                foreach (CLEstado a in Hijos)
+                    Abiertos.Add(a);
+                //ORDENAR ABIERTOS POR H3
+                Actual = Abiertos[0];
+            }
+            if (Actual.EsFinal())
+            {
+                Solucion.Add(Actual);
+                while (Actual.Padre != null)
+                {
+                    Solucion.Add(Actual.Padre);
+                    Actual = Actual.Padre;
+                }
+            }
+            return Solucion;
+        }
     }
+
+    
 }

@@ -13,6 +13,7 @@ namespace IA_RONAL_2026
         private int[,] _tablero;
         private int _nivel;
         private CLEstado _padre;
+        private int _h3;
 
 
 
@@ -38,6 +39,12 @@ namespace IA_RONAL_2026
         {
             get => _padre;
             set => _padre = value;
+        }
+
+        public int h3
+        {
+            get => _h3;
+            set => _h3 = value;
         }
         #endregion
 
@@ -66,17 +73,18 @@ namespace IA_RONAL_2026
                         int p20, int p21, int p22)
         {
             this._tablero = new int[3, 3];
-
             this._tablero[0, 0] = p00;
-            this._tablero[0, 1] = p01;
-            this._tablero[0, 2] = p02;
             this._tablero[1, 0] = p10;
-            this._tablero[1, 1] = p11;
-            this._tablero[1, 2] = p12;
             this._tablero[2, 0] = p20;
+            this._tablero[0, 1] = p01;
+            this._tablero[1, 1] = p11;
             this._tablero[2, 1] = p21;
+            this._tablero[0, 2] = p02;
+            this._tablero[1, 2] = p12;
             this._tablero[2, 2] = p22;
             this._nivel = 0;
+            this._padre = null;
+            this._h3 = H3();
 
         }
 
@@ -404,7 +412,7 @@ namespace IA_RONAL_2026
                 penalizacion++;
             }
 
-            return H2() + (3 * penalizacion);
+            return H2() + (penalizacion);
         }
 
     }
